@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<section>
+    <form th:action="@{/admin/category/save}" th:object="${category}" method="post" enctype="multipart/form-data">
+        <div class="title">
+            <h2 th:text="${category.categoryId == null ? 'Add new Category' : 'Edit category'}"></h2>
+        </div>
+        <div class="container__register">
+            <div class="mb-3" th:if="*{categoryId != null}">
+                <label>Category ID :</label>
+                <input type="text" th:value="*{categoryId}" th:field="*{categoryId}" readonly>
+            </div>
+            <div class="mb-3">
+                <label>Category Name :</label>
+                <p th:if="${#fields.hasErrors('categoryName')}" th:errors="*{categoryName}" class="errors"></p>
+                <input type="text" th:field="*{categoryName}" th:value="*{categoryName}">
+            </div>
+            <div class="mb-3">
+                <label>Description :</label>
+                <textarea style="width: 100%" th:field="*{description}" th:text="*{description}"></textarea>
+            </div>
+            <div class="mb-3">
+                <label>Status :</label>
+                <select th:field="*{status}">
+                    <option value="true" th:selected="*{status==true}">Show</option>
+                    <option value="false" th:selected="*{status==false}">Hidden</option>
+                </select><br>
+            </div>
+            <button type="submit" class="btn btn-outline-primary btn-lg"
+                    th:text="${category.categoryId==null?'Add new Category':'Update Category'}"></button>
+        </div>
+    </form>
+</section>
+</body>
+</html>

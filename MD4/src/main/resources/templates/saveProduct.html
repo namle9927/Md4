@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<section>
+    <form th:action="@{/admin/product/save}" th:object="${product}" method="post" enctype="multipart/form-data">
+        <div class="title">
+            <h2 th:text="${product.productId==null?'Add new product':'Edit product'}"></h2>
+        </div>
+        <div class="container__register">
+            <div class="mb-3" th:if="*{productId != null}">
+                <label>Product ID :</label>
+                <input type="text" th:value="*{productId}" th:field="*{productId}" readonly>
+            </div>
+            <div class="mb-3">
+                <label>Product Name :</label>
+                <p th:if="${#fields.hasErrors('productName')}" th:errors="*{productName}" class="errors"></p>
+                <input type="text" th:field="*{productName}" th:value="*{productName}">
+            </div>
+            <div class="mb-3">
+                <label>Description :</label>
+                <textarea style="width: 100%" th:field="*{description}" th:text="*{description}"></textarea>
+            </div>
+            <div class="mb-3">
+                <label>Unit Price :</label>
+                <input type="text" name="unitPrice" th:field="*{unitPrice}" th:value="*{unitPrice}">
+            </div>
+            <div class="mb-3">
+                <label>Stock :</label>
+                <input type="text" th:field="*{stock}" th:value="*{stock}">
+            </div>
+            <div class="mb-3">
+                <label>Status :</label>
+                <select th:field="*{status}">
+                    <option value="true" th:selected="*{status==true}">Show</option>
+                    <option value="false" th:selected="*{status==false}">Hidden</option>
+                </select><br>
+            </div>
+            <div class="mb-3">
+                <label>Category :</label>
+                <select th:field="*{category}">
+                    <option th:each="cat: ${categoryList}" th:value="${cat.categoryId}"
+                            th:text="${cat.categoryName}"></option>
+                </select><br>
+            </div>
+            <div class="mb-3">
+                <label>Product Image</label><br>
+                <img th:src="*{productUrl}" id="preview" style="object-fit: cover; border-radius: 100%" width="100" height="100"
+                     alt="Chưa có ảnh">
+                <input id="image" type="file" name="productFile">
+            </div>
+            <button type="submit" class="btn btn-outline-primary btn-lg"
+                    th:text="${product.productId==null?'Add new Product':'Update Product'}"></button>
+        </div>
+    </form>
+</section>
+</body>
+</html>
